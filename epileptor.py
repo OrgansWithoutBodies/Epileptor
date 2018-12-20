@@ -9,12 +9,18 @@ https://academic.oup.com/brain/article/137/8/2210/2847958#78872443
     plots
     fns
     connectivity
+    decouple
+    randomness 
+        "Noise is introduced into each equation as linear additive Gaussian white noise with zero mean and a variance of 0.025 for the first subsystem and 0.25 for the second subsystem. "
     
 """
+import math
+import scipy as scp
 
 from DyPy import dynsys as DS
+from TopPy import topology as tp
 
-class epileptorNode(object):
+class epileptorNode(DS.System):
     def __init__(self): 
         pass
     
@@ -22,10 +28,19 @@ class epileptorNode(object):
         pass
     
     
-g=DS.Constant('\gamma',0.01)
-t1=DS.Constant('\tau_1',1)
-t2=DS.Constant('\tau_2',1)
-    
+x0=DS.Constant('\\x_1',-1.6)
+y0=DS.Constant('\\y_1',1)
+gam=DS.Constant('\\gamma',0.01)
+t0=DS.Constant('\\tau_0',2857)
+t1=DS.Constant('\\tau_1',1)
+t2=DS.Constant('\\tau_2',10)
+ir1=DS.Constant('\\I_{rest1}',3.1)
+ir2=DS.Constant('\\I_{rest2}',.45)
+
+#g=DS.Function(scp.integrate(math.e**(-gam*(t-T))*x2(T)))
+f1=DS.Function(lambda x1,x2,z: (x1**3-3*(x1**2)) if x1<0 else (x2-0.6*(z)))
+f2=DS.Function(lambda x2: (0) if x2<-0.25 else (6*(x2+0.25)))
+
 y1=DS.Variable()
 x1=DS.Variable()
 z=DS.Variable()
@@ -45,7 +60,7 @@ x2=DS.Variable()
     
 #Activation Functions
 #g(x) --ONLY USED WITH x_1 TO DETERMINE x_2
-#f_1(x1,x2) --ONLY USED WITH x_1,x_2 TO DETERMINE x_1
+#f_1(x1,x2,z) --ONLY USED WITH x_1,x_2,z TO DETERMINE x_1
 #f_2(x2) --ONLY USED WITH x_2 TO DETERMINE y_2
         #x_1 y_1  z  x_2  y_2
 #narray=([[0., 1, -1, 0., 0.],#+i_rest1-f1(x1,x2)
