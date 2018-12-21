@@ -18,15 +18,18 @@ import math
 import scipy as scp
 
 from DyPy import dynsys as DS
-from TopPy import topology as tp
+# from TopPy import topology as tp
 
-class epileptorNode(DS.System):
+
+class EpileptorNode(DS.System):
     def __init__(self): 
         pass
     
     def actionOnStep(self):
         pass
-    
+
+class MacaqueEnsemble(DS.Ensemble):
+    pass
     
 x0=DS.Constant('\\x_1',-1.6)
 y0=DS.Constant('\\y_1',1)
@@ -34,8 +37,9 @@ gam=DS.Constant('\\gamma',0.01)
 t0=DS.Constant('\\tau_0',2857)
 t1=DS.Constant('\\tau_1',1)
 t2=DS.Constant('\\tau_2',10)
-ir1=DS.Constant('\\I_{rest1}',3.1)
-ir2=DS.Constant('\\I_{rest2}',.45)
+
+ir1=DS.Parameter('\\I_{rest1}',[1.9,4.3,.2],3.1)
+ir2=DS.Parameter('\\I_{rest2}',[.1,.8,.05],.45)
 
 #g=DS.Function(scp.integrate(math.e**(-gam*(t-T))*x2(T)))
 f1=DS.Function(lambda x1,x2,z: (x1**3-3*(x1**2)) if x1<0 else (x2-0.6*(z)))
