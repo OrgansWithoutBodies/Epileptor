@@ -11,14 +11,15 @@ https://academic.oup.com/brain/article/137/8/2210/2847958#78872443
     connectivity
     decouple
     randomness 
-        "Noise is introduced into each equation as linear additive Gaussian white noise with zero mean and a variance of 0.025 for the first subsystem and 0.25 for the second subsystem. "
-    
+        "Noise is introduced into each equation as linear additive Gaussian white noise with zero mean and a variance of 0.025 for the first subsystem and 0.25 for the second subsystem. " 
 """
 import math
 import scipy as scp
 import sympy as sym
 
+import DyPy 
 from DyPy import dynSys as DS
+
 # from TopPy import topology as tp
 
 
