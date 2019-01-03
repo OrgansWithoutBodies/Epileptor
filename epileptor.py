@@ -16,8 +16,9 @@ https://academic.oup.com/brain/article/137/8/2210/2847958#78872443
 """
 import math
 import scipy as scp
+import sympy as sym
 
-from DyPy import dynsys as DS
+from DyPy import dynSys as DS
 # from TopPy import topology as tp
 
 
@@ -30,8 +31,10 @@ class EpileptorNode(DS.System):
 
 class MacaqueEnsemble(DS.Ensemble):
     pass
+
+ 
     
-x0=DS.Constant('\\x_1',-1.6)
+x0=DS.Constant('\\x_1',-1.6)#@todo have sympy expression
 y0=DS.Constant('\\y_1',1)
 gam=DS.Constant('\\gamma',0.01)
 t0=DS.Constant('\\tau_0',2857)
